@@ -9,7 +9,7 @@ module Polycon
         option :name, required: true, desc: "Patient's name"
         option :surname, required: true, desc: "Patient's surname"
         option :phone, required: true, desc: "Patient's phone number"
-        option :notes, required: false, desc: "Additional notes for appointment"
+        option :notes, required: false, desc: 'Additional notes for appointment'
 
         example [
           '"2021-09-16 13:00" --professional="Alma Estevez" --name=Carlos --surname=Carlosi --phone=2213334567'
@@ -56,7 +56,7 @@ module Polycon
         argument :professional, required: true, desc: 'Full name of the professional'
 
         example [
-          '"Alma Estevez" # Cancels all appointments for professional Alma Estevez',
+          '"Alma Estevez" # Cancels all appointments for professional Alma Estevez'
         ]
 
         def call(professional:)
@@ -104,12 +104,12 @@ module Polycon
         option :name, required: false, desc: "Patient's name"
         option :surname, required: false, desc: "Patient's surname"
         option :phone, required: false, desc: "Patient's phone number"
-        option :notes, required: false, desc: "Additional notes for appointment"
+        option :notes, required: false, desc: 'Additional notes for appointment'
 
         example [
           '"2021-09-16 13:00" --professional="Alma Estevez" --name="New name" # Only changes the patient\'s name for the specified appointment. The rest of the information remains unchanged.',
           '"2021-09-16 13:00" --professional="Alma Estevez" --name="New name" --surname="New surname" # Changes the patient\'s name and surname for the specified appointment. The rest of the information remains unchanged.',
-          '"2021-09-16 13:00" --professional="Alma Estevez" --notes="Some notes for the appointment" # Only changes the notes for the specified appointment. The rest of the information remains unchanged.',
+          '"2021-09-16 13:00" --professional="Alma Estevez" --notes="Some notes for the appointment" # Only changes the notes for the specified appointment. The rest of the information remains unchanged.'
         ]
 
         def call(date:, professional:, **options)

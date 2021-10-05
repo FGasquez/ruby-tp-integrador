@@ -12,7 +12,10 @@ module Polycon
         ]
 
         def call(name:, **)
-          warn "TODO: Implementar creación de un o una profesional con nombre '#{name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Models::Professional.create(name)
+          puts "El profesional #{name} se creo correctamente"
+        rescue Polycon::Exceptions::Professional::ProfessionalExists => e
+          warn e.message
         end
       end
 
@@ -27,7 +30,11 @@ module Polycon
         ]
 
         def call(name: nil)
-          warn "TODO: Implementar borrado de la o el profesional con nombre '#{name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Models::Professional.delete(name)
+          puts 'El profesional se eliminó correctamente'
+        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
+               Polycon::Exceptions::Professional::ProfessionalHasTurnsAppointments => e
+          warn e.message
         end
       end
 
@@ -39,7 +46,9 @@ module Polycon
         ]
 
         def call(*)
-          warn "TODO: Implementar listado de profesionales.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          puts Polycon::Models::Professional.list
+        rescue Polycon::Exceptions::Professional::ProfessionalNotFound => e
+          warn e.message
         end
       end
 
@@ -50,11 +59,14 @@ module Polycon
         argument :new_name, required: true, desc: 'New name for the professional'
 
         example [
-          '"Alna Esevez" "Alma Estevez" # Renames the professional "Alna Esevez" to "Alma Estevez"',
+          '"Alna Esevez" "Alma Estevez" # Renames the professional "Alna Esevez" to "Alma Estevez"'
         ]
 
         def call(old_name:, new_name:, **)
-          warn "TODO: Implementar renombrado de profesionales con nombre '#{old_name}' para que pase a llamarse '#{new_name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Models::Professional.rename(old_name, new_name)
+        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
+               Polycon::Exceptions::Professional::ProfessionalExists => e
+          warn e.message
         end
       end
     end
