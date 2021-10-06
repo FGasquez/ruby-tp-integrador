@@ -18,11 +18,6 @@ module Polycon
           super(msg)
         end
       end
-      # begin
-      #   raise MyError.new("my message", "my thing")
-      # rescue => e
-      #   puts e.thing # "my thing"
-      # end
     end
   end
 end

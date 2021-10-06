@@ -1,6 +1,6 @@
 module Polycon
   module Exceptions
     autoload :Professional, 'polycon/exceptions/professional'
-    autoload :Storage, 'polycon/exceptions/storage'
+    autoload :Appointment, 'polycon/exceptions/appointment'
   end
 end

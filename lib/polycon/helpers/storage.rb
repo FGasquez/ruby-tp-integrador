@@ -13,8 +13,12 @@ module Polycon
         FileUtils.mkdir_p(get_path(dir))
       end
 
-      def self.create_file(file)
-        FileUtils.touch(get_path(file))
+      def self.create_file(professional, date, *data)
+        File.write(get_path(professional, "#{date}.paf"), data.join("\n"))
+      end
+
+      def self.read_file(dir, file)
+        File.read(get_path(dir, "#{file}.paf")).split
       end
 
       def self.get_files(dir = '')

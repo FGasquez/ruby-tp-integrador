@@ -1,19 +1,12 @@
 module Polycon
   module Models
     class Professional
-      attr_accessor :name
-
-      def initialize(name)
-        self.name = name
-      end
-
       def self.create(name)
         if Polycon::Helpers::Storage.file_exists?(name)
           raise Polycon::Exceptions::Professional::ProfessionalExists, "El profesional #{name} ya existe"
         end
 
         Polycon::Helpers::Storage.create_dir(name)
-        new(name)
       end
 
       def self.list
@@ -33,7 +26,7 @@ module Polycon
         end
 
         assigned_turns = Polycon::Helpers::Storage.get_files(name)
-        if !assigned_turns.empty?
+        unless assigned_turns.empty?
           raise Polycon::Exceptions::Professional::ProfessionalHasTurnsAppointments,
                 "El professional #{name} no puede ser eliminado por que contiene #{assigned_turns.length} turnos asignados "
         end

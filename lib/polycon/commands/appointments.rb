@@ -16,7 +16,13 @@ module Polycon
         ]
 
         def call(date:, professional:, name:, surname:, phone:, notes: nil)
-          warn "TODO: Implementar creación de un turno con fecha '#{date}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Models::Appointment.create(date, professional, name, surname, phone, notes)
+          puts "La cita con el professional #{professional} en la fecha #{date} se creó correctamente"
+        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
+               Polycon::Exceptions::Appointment::AppointmentExists => e
+          warn e.message
+        rescue Exceptions::Date::Error => e
+          warn e.message
         end
       end
 
@@ -31,7 +37,12 @@ module Polycon
         ]
 
         def call(date:, professional:)
-          warn "TODO: Implementar detalles de un turno con fecha '#{date}' y profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          content = Polycon::Models::Appointment.get_data(date, professional)
+          puts "Professional: #{professional}"
+          puts "Fecha: #{date}"
+          puts "Paciente: #{content[0]} #{content[1]}"
+          puts "Telefono: #{content[2]}"
+          puts "Notas: #{content[3]}" if content[3]
         end
       end
 
