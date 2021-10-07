@@ -37,12 +37,10 @@ module Polycon
         ]
 
         def call(date:, professional:)
-          content = Polycon::Models::Appointment.get_data(date, professional)
-          puts "Professional: #{professional}"
-          puts "Fecha: #{date}"
-          puts "Paciente: #{content[0]} #{content[1]}"
-          puts "Telefono: #{content[2]}"
-          puts "Notas: #{content[3]}" if content[3]
+          Polycon::Models::Appointment.get_data(date, professional).map { |k,v| puts "#{k}: #{v}" if v }
+        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
+               Polycon::Exceptions::Appointment::AppointmentNotFound => e
+          warn e.message
         end
       end
 
@@ -57,7 +55,11 @@ module Polycon
         ]
 
         def call(date:, professional:)
-          warn "TODO: Implementar borrado de un turno con fecha '#{date}' y profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Models::Appointment.cancel(date, professional)
+          puts "La cita con el professional #{professional} en la fecha #{date} se eliminó correctamente"
+        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
+               Polycon::Exceptions::Appointment::AppointmentNotFound => e
+          warn e.message
         end
       end
 
@@ -71,7 +73,11 @@ module Polycon
         ]
 
         def call(professional:)
-          warn "TODO: Implementar borrado de todos los turnos de la o el profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Models::Appointment.cancel_all(professional).each { |appointment| puts appointment }
+          puts "Fueron eliminados para el professional #{professional}"
+        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
+               Polycon::Exceptions::Professional::AppointmentNotFound => e
+           warn e.message
         end
       end
 
@@ -87,7 +93,11 @@ module Polycon
         ]
 
         def call(professional:)
-          warn "TODO: Implementar listado de turnos de la o el profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          appointments = Polycon::Models::Appointment.get_all_appointments(professional)
+          puts "El professional #{professional} no tiene citas registradas" if appointments.empty?
+          appointments.each { |appointment| puts " - #{File.basename(appointment, '.paf')}" }
+        rescue Polycon::Exceptions::Professional::ProfessionalNotFound => e
+            warn e.message
         end
       end
 
@@ -103,7 +113,12 @@ module Polycon
         ]
 
         def call(old_date:, new_date:, professional:)
-          warn "TODO: Implementar cambio de fecha de turno con fecha '#{old_date}' para que pase a ser '#{new_date}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Models::Appointment.rescedule(old_date, new_date, professional)
+          puts "La cita del #{old_date} fue reasignada a #{new_date}"
+        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
+               Polycon::Exceptions::Appointment::AppointmentNotFound,
+               Polycon::Exceptions::Appointment::AppointmentExists => e
+          warn e.message
         end
       end
 

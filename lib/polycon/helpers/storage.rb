@@ -22,15 +22,15 @@ module Polycon
       end
 
       def self.get_files(dir = '')
-        Dir.entries(get_path(dir))[2..]
+        Dir.entries(get_path(dir)).select { | file | File.file? get_path(dir, file) }
       end
 
-      def self.remove(file)
-        FileUtils.rm_rf(get_path(file))
+      def self.remove(dir, file = '')
+        FileUtils.rm_rf(get_path(dir, file))
       end
 
-      def self.rename(old_name, new_name)
-        FileUtils.move(get_path(old_name), get_path(new_name))
+      def self.rename(old_name, new_name, directory = '')
+        FileUtils.move(get_path(directory, old_name), get_path(directory, new_name))
       end
     end
   end
