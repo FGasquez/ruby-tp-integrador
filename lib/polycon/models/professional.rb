@@ -27,7 +27,7 @@ module Polycon
 
         assigned_turns = Polycon::Helpers::Storage.get_files(name)
         unless assigned_turns.empty?
-          raise Polycon::Exceptions::Professional::ProfessionalHasTurnsAppointments,
+          raise Polycon::Exceptions::Professional::ProfessionalHasAppointments,
                 "El professional #{name} no puede ser eliminado por que contiene #{assigned_turns.length} turnos asignados "
         end
 

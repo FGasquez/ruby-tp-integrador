@@ -13,7 +13,7 @@ module Polycon
         end
       end
 
-      class ProfessionalHasTurnsAppointments < StandardError
+      class ProfessionalHasAppointments < StandardError
         def initialize(msg = 'El professional tiene turnos.')
           super(msg)
         end
