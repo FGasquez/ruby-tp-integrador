@@ -26,11 +26,12 @@ module Polycon
         end
         content = Polycon::Helpers::Storage.read_file(professional, date)
         return {
-          Professional: professional,
-          Fecha: date,
-          Paciente: "#{content[0]} #{content[1]}",
-          Telefono: content[2],
-          Notas: content[3]
+          professional: professional,
+          date: date,
+          name: content[0], 
+          surname: content[1],
+          phone: content[2],
+          notes: content[3]
         }
       end
 
@@ -75,6 +76,10 @@ module Polycon
           raise Polycon::Exceptions::Appointment::AppointmentExists, "Ya hay una cita para el profesional #{professional} en la fecha #{new_date}."
         end
         Polycon::Helpers::Storage.rename("#{date}.paf", "#{new_date}.paf", directory=professional)
+      end
+      def self.edit(date, professional, **args)
+        new_values= get_data(date, professional).merge(args)
+        Polycon::Helpers::Storage.create_file(professional, new_values[:date], new_values[:name], new_values[:surname], new_values[:phone], new_values[:notes])
       end
     end
   end

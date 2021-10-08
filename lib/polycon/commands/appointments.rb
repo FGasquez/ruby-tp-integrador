@@ -37,7 +37,16 @@ module Polycon
         ]
 
         def call(date:, professional:)
-          Polycon::Models::Appointment.get_data(date, professional).map { |k,v| puts "#{k}: #{v}" if v }
+          keys_es = {
+            "name": "Nombre",
+            "surname": "Apellido",
+            "notes": "Notas",
+            "phone": "Telefono",
+            "professional": "Profesional",
+            "date": "Fecha"
+          }
+
+          Polycon::Models::Appointment.get_data(date, professional).map { |k,v| puts "#{keys_es[k]}: #{v}" if v }
         rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
                Polycon::Exceptions::Appointment::AppointmentNotFound => e
           warn e.message
@@ -139,7 +148,10 @@ module Polycon
         ]
 
         def call(date:, professional:, **options)
-          warn "TODO: Implementar modificación de un turno de la o el profesional '#{professional}' con fecha '#{date}', para cambiarle la siguiente información: #{options}.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Models::Appointment.edit(date, professional, options)
+          puts "La cita fue modificada con exito"
+        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
+               Polycon::Exceptions::Appointment::AppointmentNotFound => e
         end
       end
     end

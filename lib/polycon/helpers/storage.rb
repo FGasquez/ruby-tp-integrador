@@ -14,11 +14,11 @@ module Polycon
       end
 
       def self.create_file(professional, date, *data)
-        File.write(get_path(professional, "#{date}.paf"), data.join("\n"))
+        File.write(get_path(professional, "#{date}.paf"), data.join("\n"), mode:"w+")
       end
 
       def self.read_file(dir, file)
-        File.read(get_path(dir, "#{file}.paf")).split
+        File.read(get_path(dir, "#{file}.paf")).split("\n")
       end
 
       def self.get_files(dir = '')
