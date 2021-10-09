@@ -2,7 +2,7 @@ module Polycon
   module Helpers
     module Storage
       def self.get_path(*args)
-        File.join(ENV['STORAGE_PATH'] || '/tmp/ttps-ruby-storage', args)
+        File.join(ENV['STORAGE_PATH'] || "#{ENV['HOME']}/.polycon", args)
       end
 
       def self.file_exists?(dir = '', name = '')
@@ -13,8 +13,8 @@ module Polycon
         FileUtils.mkdir_p(get_path(dir))
       end
 
-      def self.create_file(professional, date, *data)
-        File.write(get_path(professional, "#{date}.paf"), data.join("\n"), mode:"w+")
+      def self.write(professional, date, *data)
+        File.write(get_path(professional, "#{date}.paf"), data.join("\n"), mode: 'w+')
       end
 
       def self.read_file(dir, file)
@@ -22,7 +22,7 @@ module Polycon
       end
 
       def self.get_files(dir = '')
-        Dir.entries(get_path(dir)).select { | file | File.file? get_path(dir, file) }
+        Dir.children(get_path(dir))
       end
 
       def self.remove(dir, file = '')

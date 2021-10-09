@@ -10,8 +10,6 @@ module Polycon
       end
 
       def self.list
-        Polycon::Helpers::Storage.create_dir unless Polycon::Helpers::Storage.file_exists?
-
         files = Polycon::Helpers::Storage.get_files
         if files.empty?
           raise Polycon::Exceptions::Professional::ProfessionalNotFound, 'No hay profesionales almacenados'

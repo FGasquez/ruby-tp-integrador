@@ -12,6 +12,12 @@ module Polycon
           super(msg)
         end
       end
+
+      class AppointmentInvalidDate < StandardError
+        def initialize(msg = 'La fecha no es válida.')
+          super(msg)
+        end
+      end
     end
   end
 end
