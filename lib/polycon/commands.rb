@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Polycon
   module Commands
     autoload :Professionals, 'polycon/commands/professionals'
