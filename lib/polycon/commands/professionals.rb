@@ -16,7 +16,7 @@ module Polycon
         def call(name:, **)
           Polycon::Models::Professional.create(name)
           puts "El profesional #{name} se creo correctamente"
-        rescue Polycon::Exceptions::Professional::ProfessionalExists => e
+        rescue Polycon::Exceptions::Professional::Exists => e
           warn e.message
         end
       end
@@ -34,8 +34,8 @@ module Polycon
         def call(name: nil)
           Polycon::Models::Professional.delete(name)
           puts 'El profesional se eliminó correctamente'
-        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
-               Polycon::Exceptions::Professional::ProfessionalHasAppointments => e
+        rescue Polycon::Exceptions::Professional::NotFound,
+               Polycon::Exceptions::Professional::HasAppointments => e
           warn e.message
         end
       end
@@ -49,7 +49,7 @@ module Polycon
 
         def call(*)
           puts Polycon::Models::Professional.list
-        rescue Polycon::Exceptions::Professional::ProfessionalNotFound => e
+        rescue Polycon::Exceptions::Professional::NotFound => e
           warn e.message
         end
       end
@@ -67,8 +67,8 @@ module Polycon
         def call(old_name:, new_name:, **)
           Polycon::Models::Professional.rename(old_name, new_name)
           puts "El professional #{old_name} fue renombrado a #{new_name}"
-        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
-               Polycon::Exceptions::Professional::ProfessionalExists => e
+        rescue Polycon::Exceptions::Professional::NotFound,
+               Polycon::Exceptions::Professional::Exists => e
           warn e.message
         end
       end

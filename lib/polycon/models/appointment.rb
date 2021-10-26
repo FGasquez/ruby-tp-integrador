@@ -5,15 +5,15 @@ module Polycon
     class Appointment
       def self.create(date, professional, name, surname, phone, notes = nil)
         unless Polycon::Helpers::Storage.file_exists?(professional)
-          raise Polycon::Exceptions::Professional::ProfessionalNotFound, "El profesional #{professional} no existe."
+          raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
 
         if Time.parse("#{date}+03:00") < Time.now
-          raise Polycon::Exceptions::Appointment::AppointmentInvalidDate, "La fecha \"#{date}\" no es válida"
+          raise Polycon::Exceptions::Appointment::InvalidDate, "La fecha \"#{date}\" no es válida"
         end
 
         if Polycon::Helpers::Storage.file_exists?(professional, "#{date}.paf")
-          raise Polycon::Exceptions::Appointment::AppointmentExists,
+          raise Polycon::Exceptions::Appointment::Exists,
                 "Ya hay una cita para el profesional #{professional} en la fecha #{date}."
         end
 
@@ -22,11 +22,11 @@ module Polycon
 
       def self.get_data(date, professional)
         unless Polycon::Helpers::Storage.file_exists?(professional)
-          raise Polycon::Exceptions::Professional::ProfessionalNotFound, "El profesional #{professional} no existe."
+          raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
 
         unless Polycon::Helpers::Storage.file_exists?(professional, "#{date}.paf")
-          raise Polycon::Exceptions::Appointment::AppointmentNotFound,
+          raise Polycon::Exceptions::Appointment::NotFound,
                 "No existe la cita para el profesional #{professional} en la fecha #{date}."
         end
 
@@ -41,11 +41,11 @@ module Polycon
 
       def self.cancel(date, professional)
         unless Polycon::Helpers::Storage.file_exists?(professional)
-          raise Polycon::Exceptions::Professional::ProfessionalNotFound, "El profesional #{professional} no existe."
+          raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
 
         unless Polycon::Helpers::Storage.file_exists?(professional, "#{date}.paf")
-          raise Polycon::Exceptions::Appointment::AppointmentNotFound,
+          raise Polycon::Exceptions::Appointment::NotFound,
                 "No existe la cita para el profesional #{professional} en la fecha #{date}."
         end
 
@@ -54,7 +54,7 @@ module Polycon
 
       def self.cancel_all(professional)
         if get_all_appointments(professional).empty?
-          raise Polycon::Exceptions::Appointment::AppointmentNotFound,
+          raise Polycon::Exceptions::Appointment::NotFound,
                 "El professional #{professional} no contiene citas asignadas"
         end
         get_all_appointments(professional).each do |appointment|
@@ -64,7 +64,7 @@ module Polycon
 
       def self.get_all_appointments(professional)
         unless Polycon::Helpers::Storage.file_exists?(professional)
-          raise Polycon::Exceptions::Professional::ProfessionalNotFound, "El profesional #{professional} no existe."
+          raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
 
         Polycon::Helpers::Storage.get_files(professional)
@@ -72,19 +72,19 @@ module Polycon
 
       def self.rescedule(date, new_date, professional)
         unless Polycon::Helpers::Storage.file_exists?(professional)
-          raise Polycon::Exceptions::Professional::ProfessionalNotFound, "El profesional #{professional} no existe."
+          raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
 
         if Time.parse("#{new_date}+03:00") < Time.now
-          raise Polycon::Exceptions::Appointment::AppointmentInvalidDate, "La fecha \"#{date}\" no es válida"
+          raise Polycon::Exceptions::Appointment::InvalidDate, "La fecha \"#{date}\" no es válida"
         end
 
         unless Polycon::Helpers::Storage.file_exists?(professional, "#{date}.paf")
-          raise Polycon::Exceptions::Appointment::AppointmentNotFound,
+          raise Polycon::Exceptions::Appointment::NotFound,
                 "No existe la cita para el profesional #{professional} en la fecha #{date}."
         end
         if Polycon::Helpers::Storage.file_exists?(professional, "#{new_date}.paf")
-          raise Polycon::Exceptions::Appointment::AppointmentExists,
+          raise Polycon::Exceptions::Appointment::Exists,
                 "Ya hay una cita para el profesional #{professional} en la fecha #{new_date}."
         end
 

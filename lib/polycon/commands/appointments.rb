@@ -22,9 +22,9 @@ module Polycon
         def call(date:, professional:, name:, surname:, phone:, notes: nil)
           Polycon::Models::Appointment.create(date, professional, name, surname, phone, notes)
           puts "La cita con el professional #{professional} en la fecha #{date} se creó correctamente"
-        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
-               Polycon::Exceptions::Appointment::AppointmentInvalidDate,
-               Polycon::Exceptions::Appointment::AppointmentExists => e
+        rescue Polycon::Exceptions::Professional::NotFound,
+               Polycon::Exceptions::Appointment::InvalidDate,
+               Polycon::Exceptions::Appointment::Exists => e
           warn e.message
         end
       end
@@ -50,8 +50,8 @@ module Polycon
           }
 
           Polycon::Models::Appointment.get_data(date, professional).map { |k, v| puts "#{keys_es[k]}: #{v}" if v }
-        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
-               Polycon::Exceptions::Appointment::AppointmentNotFound => e
+        rescue Polycon::Exceptions::Professional::NotFound,
+               Polycon::Exceptions::Appointment::NotFound => e
           warn e.message
         end
       end
@@ -69,8 +69,8 @@ module Polycon
         def call(date:, professional:)
           Polycon::Models::Appointment.cancel(date, professional)
           puts "La cita con el professional #{professional} en la fecha #{date} se eliminó correctamente"
-        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
-               Polycon::Exceptions::Appointment::AppointmentNotFound => e
+        rescue Polycon::Exceptions::Professional::NotFound,
+               Polycon::Exceptions::Appointment::NotFound => e
           warn e.message
         end
       end
@@ -89,8 +89,8 @@ module Polycon
             puts " - #{File.basename(appointment, '.paf')}"
           end
           puts "Fueron eliminados para el professional #{professional}"
-        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
-               Polycon::Exceptions::Appointment::AppointmentNotFound => e
+        rescue Polycon::Exceptions::Professional::NotFound,
+               Polycon::Exceptions::Appointment::NotFound => e
           warn e.message
         end
       end
@@ -110,7 +110,7 @@ module Polycon
           appointments = Polycon::Models::Appointment.get_all_appointments(professional)
           puts "El professional #{professional} no tiene citas registradas" if appointments.empty?
           appointments.each { |appointment| puts " - #{File.basename(appointment, '.paf')}" }
-        rescue Polycon::Exceptions::Professional::ProfessionalNotFound => e
+        rescue Polycon::Exceptions::Professional::NotFound => e
           warn e.message
         end
       end
@@ -129,10 +129,10 @@ module Polycon
         def call(old_date:, new_date:, professional:)
           Polycon::Models::Appointment.rescedule(old_date, new_date, professional)
           puts "La cita del #{old_date} fue reasignada a #{new_date}"
-        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
-               Polycon::Exceptions::Appointment::AppointmentNotFound,
-               Polycon::Exceptions::Appointment::AppointmentExists,
-               Polycon::Exceptions::Appointment::AppointmentInvalidDate => e
+        rescue Polycon::Exceptions::Professional::NotFound,
+               Polycon::Exceptions::Appointment::NotFound,
+               Polycon::Exceptions::Appointment::Exists,
+               Polycon::Exceptions::Appointment::InvalidDate => e
           warn e.message
         end
       end
@@ -156,8 +156,8 @@ module Polycon
         def call(date:, professional:, **options)
           Polycon::Models::Appointment.edit(date, professional, options)
           puts 'La cita fue modificada con exito'
-        rescue Polycon::Exceptions::Professional::ProfessionalNotFound,
-               Polycon::Exceptions::Appointment::AppointmentNotFound => e
+        rescue Polycon::Exceptions::Professional::NotFound,
+               Polycon::Exceptions::Appointment::NotFound => e
           warn e.message
         end
       end

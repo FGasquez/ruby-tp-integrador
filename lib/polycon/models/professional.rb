@@ -5,7 +5,7 @@ module Polycon
     class Professional
       def self.create(name)
         if Polycon::Helpers::Storage.file_exists?(name)
-          raise Polycon::Exceptions::Professional::ProfessionalExists, "El profesional #{name} ya existe"
+          raise Polycon::Exceptions::Professional::Exists, "El profesional #{name} ya existe"
         end
 
         Polycon::Helpers::Storage.create_dir(name)
@@ -14,7 +14,7 @@ module Polycon
       def self.list
         files = Polycon::Helpers::Storage.get_files
         if files.empty?
-          raise Polycon::Exceptions::Professional::ProfessionalNotFound, 'No hay profesionales almacenados'
+          raise Polycon::Exceptions::Professional::NotFound, 'No hay profesionales almacenados'
         end
 
         files
@@ -22,12 +22,12 @@ module Polycon
 
       def self.delete(name)
         unless Polycon::Helpers::Storage.file_exists?(name)
-          raise Polycon::Exceptions::Professional::ProfessionalNotFound, "El profesional #{name} no existe."
+          raise Polycon::Exceptions::Professional::NotFound, "El profesional #{name} no existe."
         end
 
         assigned_turns = Polycon::Helpers::Storage.get_files(name)
         unless assigned_turns.empty?
-          raise Polycon::Exceptions::Professional::ProfessionalHasAppointments,
+          raise Polycon::Exceptions::Professional::HasAppointments,
                 "El professional #{name} no puede ser eliminado por que contiene #{assigned_turns.length} turnos asignados "
         end
 
@@ -36,10 +36,10 @@ module Polycon
 
       def self.rename(old_name, new_name)
         unless Polycon::Helpers::Storage.file_exists?(old_name)
-          raise Polycon::Exceptions::Professional::ProfessionalNotFound, "El profesional #{old_name} no existe."
+          raise Polycon::Exceptions::Professional::NotFound, "El profesional #{old_name} no existe."
         end
         if Polycon::Helpers::Storage.file_exists?(new_name)
-          raise Polycon::Exceptions::Professional::ProfessionalExists, "El profesional #{new_name} ya existe."
+          raise Polycon::Exceptions::Professional::Exists, "El profesional #{new_name} ya existe."
         end
 
         Polycon::Helpers::Storage.rename(old_name, new_name)
