@@ -98,20 +98,13 @@ module Polycon
       end
 
       # export appointments to html using erb
-      def self.get_filtered_appointments(professional, initial_date, final_date = initial_date)
+      def self.get_filtered_appointments(professional, initial_date, final_date = nil)
         unless Polycon::Helpers::Storage.file_exists?(professional)
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
 
-        # get appointments and filter by filename
-        if final_date.nil?
-          appointments = get_all_appointments(professional).select do |appointment|
-            Date.parse(File.basename(appointment, '.paf')).to_date == initial_date
-          end
-        else
-          appointments = get_all_appointments(professional).select do |appointment|
-            Date.parse(File.basename(appointment, '.paf')).between?(initial_date, final_date)
-          end
+        appointments = get_all_appointments(professional).select do |appointment|
+          Date.parse(File.basename(appointment, '.paf')).between?(initial_date, final_date || initial_date)
         end
         appointments.map do 
           |appointment| get_data(File.basename(appointment, '.paf'), professional)
@@ -124,6 +117,7 @@ module Polycon
           appointments.concat(get_filtered_appointments(professional, initial_date, final_date))
         end
         appointments = appointments.group_by { |appointment| Date.parse(appointment[:date]).to_date.to_s }
+        puts appointments.to_s
       end      
     end
   end
