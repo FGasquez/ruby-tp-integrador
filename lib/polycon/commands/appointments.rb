@@ -137,6 +137,42 @@ module Polycon
         end
       end
 
+      # export command
+      class Export < Dry::CLI::Command
+        desc 'Edit information for an appointments'
+
+        option :professional, required: false, desc: 'Full name of the professional'
+        option :date, required: false, desc: 'Day for the appointments'
+        option :week, required: false, desc: 'Get all week'
+
+        example [
+        ]
+
+        def call(professional: nil, date: nil, week: false)
+          puts professional
+          puts date
+          puts week
+          puts Date.parse(date).wday
+          puts Date.parse(date) - Date.parse(date).wday
+          puts Date.parse(date) - Date.parse(date).wday + 6
+          puts "------------------------------------"
+          initial_date = Date.parse(date)
+          if week
+            initial_date = Date.parse(date) - Date.parse(date).wday
+            end_date = initial_date + 6
+          end
+          puts initial_date
+          puts end_date
+          puts "------------------------------------"
+          puts Polycon::Models::Professional.get(professional)
+          puts "------------------------------------"
+
+          appointments = Polycon::Models::Appointment.get_from_all_professionals(Polycon::Models::Professional.get(professional), initial_date, end_date)
+        rescue Polycon::Exceptions::Professional::NotFound => e
+          warn e.message
+        end
+      end
+
       class Edit < Dry::CLI::Command
         desc 'Edit information for an appointments'
 

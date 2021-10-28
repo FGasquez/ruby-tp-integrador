@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 module Polycon
   module Models
     class Appointment
@@ -35,7 +34,9 @@ module Polycon
           name: content[0],
           surname: content[1],
           phone: content[2],
-          notes: content[3]
+          notes: content[3],
+          date: date,
+          professional: professional,
         }
       end
 
@@ -95,6 +96,35 @@ module Polycon
         new_values = get_data(date, professional).merge(args)
         Polycon::Helpers::Storage.write(professional, date, *new_values.values)
       end
+
+      # export appointments to html using erb
+      def self.get_filtered_appointments(professional, initial_date, final_date = initial_date)
+        unless Polycon::Helpers::Storage.file_exists?(professional)
+          raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
+        end
+
+        # get appointments and filter by filename
+        if final_date.nil?
+          appointments = get_all_appointments(professional).select do |appointment|
+            Date.parse(File.basename(appointment, '.paf')).to_date == initial_date
+          end
+        else
+          appointments = get_all_appointments(professional).select do |appointment|
+            Date.parse(File.basename(appointment, '.paf')).between?(initial_date, final_date)
+          end
+        end
+        appointments.map do 
+          |appointment| get_data(File.basename(appointment, '.paf'), professional)
+        end
+      end
+
+      def self.get_from_all_professionals(professionals, initial_date, final_date)
+        appointments = []
+        professionals.each do |professional|
+          appointments.concat(get_filtered_appointments(professional, initial_date, final_date))
+        end
+        appointments = appointments.group_by { |appointment| Date.parse(appointment[:date]).to_date.to_s }
+      end      
     end
   end
 end

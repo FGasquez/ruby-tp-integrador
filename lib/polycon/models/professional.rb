@@ -20,6 +20,18 @@ module Polycon
         files
       end
 
+      def self.get(professional = nil)
+        unless professional
+          return list
+        else
+          if Polycon::Helpers::Storage.file_exists?(professional) 
+            return [professional]
+          end
+        end
+
+        raise Polycon::Exceptions::Professional::NotFound, "El profesional #{name} no existe."
+      end
+
       def self.delete(name)
         unless Polycon::Helpers::Storage.file_exists?(name)
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{name} no existe."
