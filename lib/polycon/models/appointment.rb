@@ -7,7 +7,7 @@ module Polycon
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
 
-        if Time.parse("#{date}+03:00") < Time.now
+        if Time.parse("#{date}-03:00") < Time.now
           raise Polycon::Exceptions::Appointment::InvalidDate, "La fecha \"#{date}\" no es válida"
         end
 
@@ -76,7 +76,7 @@ module Polycon
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
 
-        if Time.parse("#{new_date}+03:00") < Time.now
+        if Time.parse("#{new_date}-03:00") < Time.now
           raise Polycon::Exceptions::Appointment::InvalidDate, "La fecha \"#{date}\" no es válida"
         end
 
