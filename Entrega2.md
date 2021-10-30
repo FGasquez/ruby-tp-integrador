@@ -2,7 +2,7 @@
 En este readme se explican las decisiones que se tomaron, los puntos asumidos y el uso del comando para exportar los `appointmets` en un archivo `.html`.
 
 ## Asunsiones
-Se asume que el horario de atención es de 8:00 a 20:30, y que los turnos son de 30 hora, siendo el último turno a las 20:00 hs, se pueden crear turnos fuera de este rango de tiempo, pero no serán mostrados en la grilla.
+Se asume que el horario de atención es de 8:00 a 20:30, y que los turnos son de 30 minutos, siendo el último turno a las 20:00 hs, se pueden crear turnos fuera de este rango de tiempo, pero no serán mostrados en la grilla.
 
 Para el manejo de horarios no exactos, por ejemplo a las 12:24, se tomará como turno para las 12:00, esto puede provocar que se exporten varios turnos para el mismo horario y profesional. pero se asume que no pasará.
 
