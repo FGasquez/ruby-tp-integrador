@@ -125,3 +125,6 @@ El helper de almacenamiento toma por defecto el directorio raiz donde se almacen
 ```bash
 $ export STORAGE_PATH=/tmp/ttps-ruby-storage
 ```
+
+# Entrega 2
+Se agregó la información sobre la entrega 2 en el archivo [Entrega2.md](Entrega2.md)
