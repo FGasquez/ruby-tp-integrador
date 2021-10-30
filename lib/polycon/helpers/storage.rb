@@ -34,6 +34,13 @@ module Polycon
       def self.rename(old_name, new_name, directory = '')
         FileUtils.move(get_path(directory, old_name), get_path(directory, new_name))
       end
+
+      def self.write_export(filename, data)
+        File.write(filename, data, mode: 'w+')
+      end
+      def self.template_read(filename)
+        File.read(File.join(ENV['PWD'] ,'lib/polycon/templates', filename))
+      end
     end
   end
 end

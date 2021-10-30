@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'time'
+require 'erb'
 
 module Polycon
   module Commands
@@ -141,22 +142,29 @@ module Polycon
       class Export < Dry::CLI::Command
         desc 'Edit information for an appointments'
 
+        option :date, required: true, desc: 'Day for the appointments'
         option :professional, required: false, desc: 'Full name of the professional'
-        option :date, required: false, desc: 'Day for the appointments'
-        option :week, required: false, desc: 'Get all week'
+        option :week, type: :boolean, required: false, desc: 'Get all week'
 
         example [
         ]
 
-        def call(professional: nil, date: nil, week: false)
+        def call(professional: nil, date: nil, week: nil)
           end_date = nil
           initial_date = Date.parse(date)
-          if week
+
+          days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+          if week.equal?(true)
             initial_date = Date.parse(date) - Date.parse(date).wday
             end_date = initial_date + 6
           end
           appointments = Polycon::Models::Appointment.get_from_all_professionals(Polycon::Models::Professional.get(professional), initial_date, end_date)
-          puts appointments.to_s
+          # write appointments hash using erb
+          first_day = Date.parse(date) - Date.parse(date).wday
+          erb_file = Polycon::Helpers::Storage.template_read('export.html.erb')
+          erb_result = ERB.new(erb_file).result_with_hash({appointments: appointments, first_day: first_day, days: days }) 
+          Polycon::Helpers::Storage.write_export("export.html", erb_result)
+
         rescue Polycon::Exceptions::Professional::NotFound => e
           warn e.message
         end

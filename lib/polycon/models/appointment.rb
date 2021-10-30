@@ -117,7 +117,6 @@ module Polycon
           appointments.concat(get_filtered_appointments(professional, initial_date, final_date))
         end
         appointments = appointments.group_by { |appointment| Date.parse(appointment[:date]).to_date.to_s }
-        puts appointments.to_s
       end      
     end
   end
