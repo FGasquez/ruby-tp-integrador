@@ -121,7 +121,21 @@
                 -moz-transform: translateY(16px) rotate(270deg);
             }
         }
-    
+        .list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .list li {
+            display: block;
+            margin: 0;
+            padding: 0;
+            border-bottom: 1px solid #626E7E;
+        }
+        .list li:last-child {
+            border-bottom: 0px;
+        }
+        
     </style>
 </head>
 <body>
@@ -146,16 +160,22 @@
                         <% if appointments[(first_day + day).to_s].nil? %>
                         <td></td>
                         <% else %>
-                            <td> <% appointments[(first_day + day).to_s].select { |a| Time.parse(a[:date]).strftime("%H:%M") == (Time.parse("09:00") + (time * 30 * 60)).strftime("%H:%M") }.each do |appointment| %>
-                                    <%= appointment[:name] %>  <%= appointment[:surname] %> | profesional <%= appointment[:professional] %> <br/>
-                            <% end %></td>
+                        <td> 
+                            <div>
+                            <ul class="list" >
+                                <% appointments[(first_day + day).to_s].select { |a| Time.parse(a[:date]).between?((Time.parse("#{first_day + day} 09:00") + (time * 30 * 60)),(Time.parse("#{first_day + day} 09:00") + ((time+1) * 30 * 60) -1)) }.each do |appointment| %>
+                                    <li class="listItem">
+                                        <%= appointment[:name] %>  <%= appointment[:surname] %> <br/> profesional <%= appointment[:professional] %>
+                                    </li>
+                                <% end %>
+                            </ul>
+                            </div>    
+                        </td>
                         <% end %>
                     <% end %>
                 </tr>
             <% end %>
         </tbody>
     </table>
-</body>
-</html>
 </body>
 </html>

@@ -162,11 +162,15 @@ module Polycon
             initial_date = Date.parse(date) - Date.parse(date).wday
             end_date = initial_date + 6
           end
-          appointments = Polycon::Models::Appointment.get_from_all_professionals(Polycon::Models::Professional.get(professional), initial_date, end_date)
+          appointments = Polycon::Models::Appointment.get_from_all_professionals(
+            Polycon::Models::Professional.get(professional), initial_date, end_date
+          )
 
-          Polycon::Helpers::Storage.write_with_template("export.html.erb", "export.html", {appointments: appointments, first_day: Date.parse(date) - Date.parse(date).wday, days: days })
-
-        rescue Polycon::Exceptions::Professional::NotFound => e
+          Polycon::Helpers::Storage.write_with_template("export.html.erb", "export.html",
+                                                        { appointments: appointments, first_day: Date.parse(date) - Date.parse(date).wday, days: days })
+          puts "Se generó el archivo export.html"
+        rescue Polycon::Exceptions::Professional::NotFound,
+               Polycon::Exceptions::Appointment::NotFound => e
           warn e.message
         end
       end

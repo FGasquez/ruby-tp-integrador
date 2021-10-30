@@ -24,7 +24,7 @@ module Polycon
         unless professional
           return list
         else
-          if Polycon::Helpers::Storage.file_exists?(professional) 
+          if Polycon::Helpers::Storage.file_exists?(professional)
             return [professional]
           end
         end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Polycon
   module Models
     class Appointment
@@ -106,8 +107,8 @@ module Polycon
         appointments = get_all_appointments(professional).select do |appointment|
           Date.parse(File.basename(appointment, '.paf')).between?(initial_date, final_date || initial_date)
         end
-        appointments.map do 
-          |appointment| get_data(File.basename(appointment, '.paf'), professional)
+        appointments.map do |appointment|
+          get_data(File.basename(appointment, '.paf'), professional)
         end
       end
 
@@ -117,7 +118,13 @@ module Polycon
           appointments.concat(get_filtered_appointments(professional, initial_date, final_date))
         end
         appointments = appointments.group_by { |appointment| Date.parse(appointment[:date]).to_date.to_s }
-      end      
+        if appointments.keys.empty?
+          raise Polycon::Exceptions::Appointment::NotFound,
+                "No hay citas para las fechas solicitadas"
+        end
+
+        appointments
+      end
     end
   end
 end
