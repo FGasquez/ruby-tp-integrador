@@ -109,3 +109,22 @@ puede requerir algún trabajo adicional de tu parte.
   * `lib/polycon/version.rb` define la versión de la herramienta, utilizando [SemVer](https://semver.org/lang/es/).
 * `bin/`: directorio donde reside cualquier archivo ejecutable, siendo el más notorio `polycon`
   que se utiliza como punto de entrada para el uso de la herramienta.
+
+---
+
+## Estructura del proyecto
+
+Se separó el código en:
+- `models`: Se encuentra la lógica necesaria de los diferentes comandos
+- `exceptions`: Se encuentra la definición de escpeciones personalizadas
+- `helpers`: Se encuentan las definicioens de las funcionalidades que no pertenecen a un método específico.
+
+## Directorio de almacenamiento
+El helper de almacenamiento toma por defecto el directorio raiz donde se almacenaran, este es `~/.polycon`, pero puede ser modificado seteando la variable de ambiente `STORAGE_PATH`, se puede ver en el archivo `.direnv-sample`, o exportando la misma de la siguiente manera
+
+```bash
+$ export STORAGE_PATH=/tmp/ttps-ruby-storage
+```
+
+# Entrega 2
+Se agregó la información sobre la entrega 2 en el archivo [Entrega2.md](Entrega2.md)

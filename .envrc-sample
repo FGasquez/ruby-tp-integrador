@@ -1,0 +1,2 @@
+export PATH="$(pwd)/bin:$PATH"
+export STORAGE_PATH="/tmp/storage"
