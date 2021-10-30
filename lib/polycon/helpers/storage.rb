@@ -35,8 +35,8 @@ module Polycon
         FileUtils.move(get_path(directory, old_name), get_path(directory, new_name))
       end
 
-      def self.write_export(filename, data)
-        File.write(filename, data, mode: 'w+')
+      def self.write_with_template(template, filename, data)
+        File.write(filename, erb_result = ERB.new(template_read(template)).result_with_hash(data), mode: 'w+')
       end
       def self.template_read(filename)
         File.read(File.join(ENV['PWD'] ,'lib/polycon/templates', filename))
