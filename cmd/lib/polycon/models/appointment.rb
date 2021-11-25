@@ -3,7 +3,7 @@
 module Polycon
   module Models
     class Appointment
-      def self.create(date, professional, name, surname, phone, notes = nil)
+      def create(date, professional, name, surname, phone, notes = nil)
         unless Polycon::Helpers::Storage.file_exists?(professional)
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
@@ -20,7 +20,7 @@ module Polycon
         Polycon::Helpers::Storage.write(professional, date, name, surname, phone, notes)
       end
 
-      def self.get_data(date, professional)
+      def get_data(date, professional)
         unless Polycon::Helpers::Storage.file_exists?(professional)
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
@@ -41,7 +41,7 @@ module Polycon
         }
       end
 
-      def self.cancel(date, professional)
+      def cancel(date, professional)
         unless Polycon::Helpers::Storage.file_exists?(professional)
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
@@ -54,7 +54,7 @@ module Polycon
         Polycon::Helpers::Storage.remove(professional, "#{date}.paf")
       end
 
-      def self.cancel_all(professional)
+      def cancel_all(professional)
         if get_all_appointments(professional).empty?
           raise Polycon::Exceptions::Appointment::NotFound,
                 "El professional #{professional} no contiene citas asignadas"
@@ -64,7 +64,7 @@ module Polycon
         end
       end
 
-      def self.get_all_appointments(professional)
+      def get_all_appointments(professional)
         unless Polycon::Helpers::Storage.file_exists?(professional)
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
@@ -72,7 +72,7 @@ module Polycon
         Polycon::Helpers::Storage.get_files(professional)
       end
 
-      def self.rescedule(date, new_date, professional)
+      def rescedule(date, new_date, professional)
         unless Polycon::Helpers::Storage.file_exists?(professional)
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
@@ -93,13 +93,13 @@ module Polycon
         Polycon::Helpers::Storage.rename("#{date}.paf", "#{new_date}.paf", professional)
       end
 
-      def self.edit(date, professional, **args)
+      def edit(date, professional, **args)
         new_values = get_data(date, professional).merge(args)
         Polycon::Helpers::Storage.write(professional, date, *new_values.values)
       end
 
       # export appointments to html using erb
-      def self.get_filtered_appointments(professional, initial_date, final_date = nil)
+      def get_filtered_appointments(professional, initial_date, final_date = nil)
         unless Polycon::Helpers::Storage.file_exists?(professional)
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{professional} no existe."
         end
@@ -112,7 +112,7 @@ module Polycon
         end
       end
 
-      def self.get_from_all_professionals(professionals, initial_date, final_date)
+      def get_from_all_professionals(professionals, initial_date, final_date)
         appointments = []
         professionals.each do |professional|
           appointments.concat(get_filtered_appointments(professional, initial_date, final_date))

@@ -3,7 +3,7 @@
 module Polycon
   module Models
     class Professional
-      def self.create(name)
+      def create(name)
         if Polycon::Helpers::Storage.file_exists?(name)
           raise Polycon::Exceptions::Professional::Exists, "El profesional #{name} ya existe"
         end
@@ -11,7 +11,7 @@ module Polycon
         Polycon::Helpers::Storage.create_dir(name)
       end
 
-      def self.list
+      def list
         files = Polycon::Helpers::Storage.get_files
         if files.empty?
           raise Polycon::Exceptions::Professional::NotFound, 'No hay profesionales almacenados'
@@ -20,7 +20,7 @@ module Polycon
         files
       end
 
-      def self.get(professional = nil)
+      def get(professional = nil)
         unless professional
           return list
         else
@@ -32,7 +32,7 @@ module Polycon
         raise Polycon::Exceptions::Professional::NotFound, "El profesional #{name} no existe."
       end
 
-      def self.delete(name)
+      def delete(name)
         unless Polycon::Helpers::Storage.file_exists?(name)
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{name} no existe."
         end
@@ -46,7 +46,7 @@ module Polycon
         Polycon::Helpers::Storage.remove(name)
       end
 
-      def self.rename(old_name, new_name)
+      def rename(old_name, new_name)
         unless Polycon::Helpers::Storage.file_exists?(old_name)
           raise Polycon::Exceptions::Professional::NotFound, "El profesional #{old_name} no existe."
         end
