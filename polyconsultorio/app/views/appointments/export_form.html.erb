@@ -1,0 +1,24 @@
+<h1> Export Appointments </h1>
+
+<%= form_with do |form| %>
+  
+    <div class="field">
+      <%= form.label :day %>
+      <%= form.date_field :day %>
+    </div>
+  
+    <div class="field">
+      <%= form.label :professional %>
+      <%= form.select :professional_id, [[:all_professionals, -1]] + Professional.all.map { |p| [p.name, p.id] }  %>
+    </div>
+  
+    <div class="field">
+      <%= form.label :week %>
+      <%= form.check_box :week %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
+  

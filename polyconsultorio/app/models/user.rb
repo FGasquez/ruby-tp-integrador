@@ -8,8 +8,8 @@ class User < ApplicationRecord
 
   enum role: {
     admin: 'admin',
-    consultante: 'consultante',
-    asistente: 'asistente'
+    consultant: 'consultant',
+    assistant: 'assistant'
   }
 
 end

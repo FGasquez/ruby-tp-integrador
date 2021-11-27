@@ -24,6 +24,7 @@
     <% if current_user %>
       <ul class="nav navbar-nav pull-right">
         <li><span><%= current_user.email %></span></li>
+        <li><span><%= current_user.admin? %></span></li>
         <li><%= link_to 'Log Out', log_out_path, method: :delete %></li>
       </ul>
     <% end %>
@@ -31,6 +32,5 @@
   <div class="col-sm-9">
     <%= yield %>
   </div>
-    <%= render 'shared/current_users' %>
   </body>
 </html>

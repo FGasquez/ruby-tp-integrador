@@ -34,6 +34,7 @@ class ProfessionalsController < ApplicationController
 
   # POST /professionals or /professionals.json
   def create
+    authorize!
     @professional = Professional.new(professional_params)
 
     respond_to do |format|
@@ -49,6 +50,7 @@ class ProfessionalsController < ApplicationController
 
   # PATCH/PUT /professionals/1 or /professionals/1.json
   def update
+    authorize!
     respond_to do |format|
       if @professional.update(professional_params)
         format.html { redirect_to @professional, notice: "Professional was successfully updated." }
@@ -62,6 +64,7 @@ class ProfessionalsController < ApplicationController
 
   # DELETE /professionals/1 or /professionals/1.json
   def destroy
+    authorize!
     # get appointments for professional
     appointments = Appointment.where(professional_id: @professional.id)
     if appointments.count > 0
