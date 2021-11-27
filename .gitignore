@@ -102,7 +102,7 @@ polyconsultorio/public/packs-test
 polyconsultorio/public/assets
 
 # Ignore yarn files
-/yarn-error.log
+polyconsultorio/yarn-error.log
 yarn-debug.log*
 .yarn-integrity
 

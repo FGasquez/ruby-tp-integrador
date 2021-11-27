@@ -22,13 +22,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :date %>
-    <%= form.text_field :date %>
-  </div>
-
-  <div class="field">
-    <%= form.label :professional %>
-    <%= form.text_field :professional %>
+    <%= form.label :date%>
+    <%= form.datetime_select :date, minute_step: 30 %>
   </div>
 
   <div class="field">
@@ -39,6 +34,11 @@
   <div class="field">
     <%= form.label :notes %>
     <%= form.text_field :notes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :professional %>
+    <%= form.select :professional_id, Professional.all.map { |p| [p.name, p.id] } %>
   </div>
 
   <div class="actions">

@@ -11,22 +11,26 @@
   </head>
 
   <body>
-      <div id="navbar">
-      <ul class="nav navbar-nav">
-        <% if current_user %>
-          <li><%= link_to 'Professionals', professionals_path %></li>
-        <% else %>
-          <li><%= link_to 'Sign Up', sign_up_path %></li>
-          <li><%= link_to 'Log In', log_in_path %></li>
-        <% end %>
-      </ul>
+  <div id="navbar">
+    <ul class="nav navbar-nav">
       <% if current_user %>
-        <ul class="nav navbar-nav pull-right">
-          <li><span><%= current_user.email %></span></li>
-          <li><%= link_to 'Log Out', log_out_path, method: :delete %></li>
-        </ul>
+        <li><%= link_to 'Professionals', "/professionals" %></li>
+        <li><%= link_to 'Appointments', "/appointments" %></li>
+      <% else %>
+        <li><%= link_to 'Sign Up', sign_up_path %></li>
+        <li><%= link_to 'Log In', log_in_path %></li>
       <% end %>
-    </div>
+    </ul>
+    <% if current_user %>
+      <ul class="nav navbar-nav pull-right">
+        <li><span><%= current_user.email %></span></li>
+        <li><%= link_to 'Log Out', log_out_path, method: :delete %></li>
+      </ul>
+    <% end %>
+  </div>
+  <div class="col-sm-9">
     <%= yield %>
+  </div>
+    <%= render 'shared/current_users' %>
   </body>
 </html>

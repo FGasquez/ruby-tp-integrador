@@ -19,6 +19,19 @@ class ProfessionalsController < ApplicationController
   def edit
   end
 
+  # GET /professionals/1/destroy_all_appointments/
+  def destroy_all_appointments
+    @professional = Professional.find(params[:id])
+    @professional.appointments.destroy_all
+    redirect_to professional_path
+  end
+  
+  # GET /professionals/1/appointments
+  def appointments
+    @professional = Professional.find(params[:id])
+    @appointments = Appointment.where(professional_id: params[:id])
+  end
+
   # POST /professionals or /professionals.json
   def create
     @professional = Professional.new(professional_params)
@@ -49,10 +62,20 @@ class ProfessionalsController < ApplicationController
 
   # DELETE /professionals/1 or /professionals/1.json
   def destroy
-    @professional.destroy
-    respond_to do |format|
-      format.html { redirect_to professionals_url, notice: "Professional was successfully destroyed." }
-      format.json { head :no_content }
+    # get appointments for professional
+    appointments = Appointment.where(professional_id: @professional.id)
+    if appointments.count > 0
+      # show error
+      respond_to do |format|
+        format.html { redirect_to professionals_url, notice: "Professional has appointments and cannot be deleted." }
+        format.json { head :no_content }
+      end
+    else
+      @professional.destroy
+      respond_to do |format|
+        format.html { redirect_to professionals_url, notice: "Professional was successfully destroyed." }
+        format.json { head :no_content }
+      end
     end
   end
 

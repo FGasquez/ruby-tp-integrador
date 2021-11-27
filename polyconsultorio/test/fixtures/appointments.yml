@@ -3,15 +3,13 @@
 one:
   name: MyString
   surname: MyString
-  date: 
-  professional: MyString
+  date: 2021-11-26 23:01:33
   phone: MyString
   notes: MyString
 
 two:
   name: MyString
   surname: MyString
-  date: 
-  professional: MyString
+  date: 2021-11-26 23:01:33
   phone: MyString
   notes: MyString

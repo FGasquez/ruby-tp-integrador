@@ -19,6 +19,18 @@ class AppointmentsController < ApplicationController
   def edit
   end
 
+  # GET /appointments/cancell_all/1
+  def cancel_all
+    #get all appointments for professional_id
+    @appointments = Appointment.where(professional_id: params[:id])
+    #delete all appointments
+    @appointments.each do |appointment|
+      appointment.destroy
+    end
+    #redirect to appointments index
+    redirect to professionals
+  end
+
   # POST /appointments or /appointments.json
   def create
     @appointment = Appointment.new(appointment_params)
@@ -64,6 +76,6 @@ class AppointmentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def appointment_params
-      params.require(:appointment).permit(:name, :surname, :date, :professional, :phone, :notes)
+      params.require(:appointment).permit(:name, :surname, :date, :phone, :notes, :professional_id)
     end
 end
