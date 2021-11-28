@@ -12,16 +12,19 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.label :name, class: "label" %>
+    <div class="control">
+      <%= form.text_field :name, class: "input" %>
+    </div>
   </div>
 
   <div class="field">
-    <%= form.label :surname %>
-    <%= form.text_field :surname %>
+    <%= form.label :surname, class: "label" %>
+    <div class="control">
+      <%= form.text_field :surname, class: "input" %>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+
+  <input class="button" type="submit" value="Submit">
 <% end %>
