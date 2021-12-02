@@ -10,12 +10,12 @@ User.find_or_create_by(email: 'admin@example.com') do |user|
     user.role = :admin
 end
   
-User.find_or_create_by(email: 'consultante@example.com') do |user|
+User.find_or_create_by(email: 'consultant@example.com') do |user|
     user.password = 'password'
-    user.role = :consultante
+    user.role = :consultant
 end
 
-User.find_or_create_by(email: 'asistente@example.com') do |user|
+User.find_or_create_by(email: 'assistant@example.com') do |user|
     user.password = 'password'
-    user.role = :asistente
+    user.role = :assistant
 end
