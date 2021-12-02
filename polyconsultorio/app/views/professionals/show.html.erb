@@ -9,6 +9,7 @@
   <strong>Surname:</strong>
   <%= @professional.surname %>
 </p>
-
-<%= link_to 'Edit', edit_professional_path(@professional) %> |
+<% if allowed_to?(:edit?, @professional) %>
+  <%= link_to 'Edit', edit_professional_path(@professional) %> |
+<% end %>
 <%= link_to 'Back', professionals_path %>

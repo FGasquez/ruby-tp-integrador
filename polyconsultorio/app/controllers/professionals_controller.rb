@@ -13,17 +13,22 @@ class ProfessionalsController < ApplicationController
   # GET /professionals/new
   def new
     @professional = Professional.new
+    authorize!
   end
 
   # GET /professionals/1/edit
   def edit
+    authorize!
   end
 
   # GET /professionals/1/destroy_all_appointments/
   def destroy_all_appointments
+    authorize!
     @professional = Professional.find(params[:id])
     @professional.appointments.destroy_all
-    redirect_to professional_path
+    respond_to do |format|
+      format.html { redirect_to professionals_url, notice: "All appontments for \"#{ @professional.full_name }\" was cancelled" }
+    end
   end
   
   # GET /professionals/1/appointments

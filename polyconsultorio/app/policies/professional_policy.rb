@@ -9,8 +9,12 @@ class ProfessionalPolicy < ApplicationPolicy
         user.admin?
     end
 
+    def new?
+        create?
+    end
+
     def edit?
-        user.admin?
+        update?
     end
     
     def update?
@@ -18,6 +22,10 @@ class ProfessionalPolicy < ApplicationPolicy
     end
     
     def destroy?
+        user.admin?
+    end
+
+    def cancel_all?
         user.admin?
     end
 end

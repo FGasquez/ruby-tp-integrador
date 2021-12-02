@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Professionals</h1>
 
 <table class="table is-fullwidth is-hoverable">
@@ -17,13 +15,27 @@
         <td><%= professional.name %></td>
         <td><%= professional.surname %></td>
         <td><%= link_to 'Show', professional %></td>
-        <td><%= link_to 'Edit', edit_professional_path(professional) %></td>
-        <td><%= link_to 'Destroy', professional, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <% if allowed_to?(:edit?, professional) %>
+            <%= link_to 'Edit', edit_professional_path(professional) %>
+          <% end %>
+        </td>
+        <td>
+          <% if allowed_to?(:destroy?, professional) %>
+            <%= link_to 'Destroy', professional, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
+        <td>
+          <% if allowed_to?(:cancel_all?, Professional) %>
+            <%= link_to 'Cancel all appointments', cancel_all_path(professional), data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td> 
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Professional', new_professional_path %>
+<% if allowed_to?(:new?, Professional) %>
+  <%= link_to 'New professional', new_professional_path %>
+<% end %>

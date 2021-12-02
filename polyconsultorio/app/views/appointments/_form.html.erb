@@ -12,36 +12,37 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.label :name, class: "label" %>
+    <%= form.text_field :name, class: "input" %>
   </div>
 
   <div class="field">
-    <%= form.label :surname %>
-    <%= form.text_field :surname %>
+    <%= form.label :surname, class: "label" %>
+    <%= form.text_field :surname, class: "input" %>
   </div>
 
   <div class="field">
-    <%= form.label :date%>
+    <%= form.label :date, class: "label" %>
     <%= form.datetime_select :date, minute_step: 30 %>
   </div>
 
   <div class="field">
-    <%= form.label :phone %>
-    <%= form.text_field :phone %>
+    <%= form.label :phone, class: "label" %>
+    <%= form.text_field :phone, type: "number", class: "input" %>
   </div>
 
   <div class="field">
-    <%= form.label :notes %>
-    <%= form.text_field :notes %>
+    <%= form.label :notes, class: "label" %>
+    <%= form.text_area :notes, class: "textarea" %>
   </div>
 
   <div class="field">
-    <%= form.label :professional %>
-    <%= form.select :professional_id, Professional.all.map { |p| [p.name, p.id] } %>
+    <%= form.label :professional, class: "label" %>
+    <div class="select">
+      <%= form.select :professional_id, Professional.all.map { |p| [p.name, p.id] } %>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <input class="button is-danger" type="submit" value="Submit">
+
 <% end %>

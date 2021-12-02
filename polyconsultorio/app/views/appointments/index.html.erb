@@ -2,6 +2,8 @@
 
 <h1>Appointments</h1>
 
+<%= link_to 'export', export_form_path, class: "button is-primary" %>
+
 <table class="table is-fullwidth is-hoverable">
   <thead>
     <tr>
@@ -23,8 +25,16 @@
         <td><%= appointment.phone %></td>
         <td><%= appointment.notes %></td>
         <td><%= link_to 'Show', appointment %></td>
-        <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
-        <td><%= link_to 'Destroy', appointment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <% if allowed_to?(:edit?, appointment) %>
+            <%= link_to 'Edit', edit_appointment_path(appointment) %>
+          <% end %>
+        </td>
+        <td>
+          <% if allowed_to?(:destroy?, appointment) %>
+            <%= link_to 'Destroy', appointment, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

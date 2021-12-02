@@ -7,4 +7,5 @@ class Appointment < ApplicationRecord
     validates :phone,:presence => true,
                  :numericality => true,
                  :length => { :minimum => 7, :maximum => 15 }
+    validates :notes, :length => { :minimum => 0, :maximum => 200 }
 end
