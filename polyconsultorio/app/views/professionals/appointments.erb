@@ -1,0 +1,19 @@
+<h1> <%= @professional.name %>'s Appointments </h1>
+<table class="table">
+    <tr>
+        <th>Date</th>
+        <th>name</th>
+        <th>surname</th>
+        <th>phone</th>
+        <th>notes</th>
+    </tr>
+    <% @appointments.each do |appointment| %>
+        <tr>
+            <td> <%= appointment.date %> </td>
+            <td> <%= appointment.name %> </td>
+            <td> <%= appointment.surname %> </td>
+            <td> <%= appointment.phone %> </td>
+            <td> <%= appointment.notes %> </td>
+        </tr>
+    <% end %>
+</table>
